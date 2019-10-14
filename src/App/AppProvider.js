@@ -10,10 +10,32 @@ export class AppProvider extends React.Component {
         super(props);
         // Intitial state
         this.state = {
-            page:'settings',
+            page:'dashboard',
+            ...this.savedSettings(), 
             // State updater function
-            setPage: this.setPage
+            setPage: this.setPage,
+            confirmFavorites: this.confirmFavorites
         }
+    }
+
+    confirmFavorites = () => {
+    //  console.log('Hello'); 
+        this.setState({
+            firstVisit: false,
+            page: 'dashboard'
+        });
+        localStorage.setItem('cryptodash', JSON.stringify({
+            test: 'Hello'
+        }));
+    }  
+
+    savedSettings() {
+        let cryptoDashData = JSON.parse(localStorage.getItem('cryptoDash'));
+        // If not cryptoDashData return default frstVisit variable
+        if(!cryptoDashData) {
+            return { page: 'settings', firstVisit: true }
+        }
+        return {};
     }
     // Function to set page with React
     setPage = page => this.setState({ page })
