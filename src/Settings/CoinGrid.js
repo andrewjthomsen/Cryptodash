@@ -1,11 +1,14 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import {AppContext} from '../App/AppProvider';
+import { SelectableTile } from '../Shared/Tile';
+
 
 // Divides screen into 5 divs and stretches widths out
 export const CoinGridStyled = styled.div`
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    grid-gap: 15px;
 `
 // Taking array of keys of coinList
 // then mapping list of keys to a div
@@ -15,7 +18,7 @@ export default function() {
     return <AppContext.Consumer>
         {({ coinList })  => <CoinGridStyled>
             {Object.keys(coinList).map(coinKey => 
-                <div> {coinKey} </div>)}
+                <SelectableTile> {coinKey} </SelectableTile>)}
         </CoinGridStyled>}
     </AppContext.Consumer>
 }
