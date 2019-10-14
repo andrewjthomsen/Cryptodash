@@ -1,6 +1,8 @@
 // State Container
 import React from 'react';
-// Creates a new React context 
+
+const CC = require('cryptocompare');
+
 // Will be exported to be use consumers in the child components 
 export const AppContext = React.createContext();
 
@@ -16,6 +18,15 @@ export class AppProvider extends React.Component {
             setPage: this.setPage,
             confirmFavorites: this.confirmFavorites
         }
+    }
+
+    componentDidMount = () => {
+        this.fetchCoins();
+    }
+
+    fetchCoins = async () => {
+        let coinList = (await CC.coinList()).Data;
+        this.setState({ coinList });
     }
 
     confirmFavorites = () => {
