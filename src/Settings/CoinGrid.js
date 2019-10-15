@@ -10,19 +10,19 @@ export const CoinGridStyled = styled.div`
     grid-gap: 15px;
     margin-top: 40px;
 `
-function getCoinsToDisplay(coinList) {
-    return Object.keys(coinList).slice(0, 100);
+function getCoinsToDisplay(coinList, topSection) {
+    return Object.keys(coinList).slice(0, topSection ? 10 : 100);
 }
 
 // Taking array of keys of coinList
 // then mapping list of keys to a div
 // Each coinKey gets its own div
 // Displaying keys inside of a grid
-export default function() {
+export default function({ topSection }) {
     return <AppContext.Consumer>
         {({ coinList })  => <CoinGridStyled>
-            {getCoinsToDisplay(coinList).map(coinKey => 
-                <CoinTile coinKey = {coinKey}/>
+            {getCoinsToDisplay(coinList, topSection).map(coinKey => 
+                <CoinTile topSection={topSection} coinKey = {coinKey}/>
             )}
         </CoinGridStyled>}
     </AppContext.Consumer>

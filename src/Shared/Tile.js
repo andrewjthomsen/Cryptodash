@@ -15,3 +15,16 @@ import { subtleBoxShadow, lightBlueBackground,
         ${ greenBoxShadow }
     }
     `
+    // Extends off of SelectableTile
+    // Instead of greenBoxShadow on hover, has red
+    export const DeletableTile = styled(SelectableTile)`
+        &:hover{
+            cursor: pointer;
+            ${redBoxShadow}
+        }
+    `;
+// Diables mouse clicks
+    export const DisabledTile = styled(Tile)`
+        pointer-events: none;
+        opacity: 0.4;
+    `;
