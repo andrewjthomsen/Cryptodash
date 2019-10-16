@@ -1,10 +1,13 @@
 // State Container
 import React from 'react';
+import _ from 'lodash';
 
 const CC = require('cryptocompare');
 
 // Will be exported to be use consumers in the child components 
 export const AppContext = React.createContext();
+
+const MAX_FAVORITES = 10;
 
 // Provider is going to be in main wrapper to provide state with the other components
 export class AppProvider extends React.Component {
@@ -13,9 +16,13 @@ export class AppProvider extends React.Component {
         // Intitial state
         this.state = {
             page:'dashboard',
+            favorites: ['BTC', 'ETH', 'XMR', 'DOGE'],
             ...this.savedSettings(), 
             // State updater function
             setPage: this.setPage,
+            addCoin: this.addCoin, 
+            removeCoin: this.removeCoin,
+            isInFavorites: this.isInFavorites,
             confirmFavorites: this.confirmFavorites
         }
     }
@@ -29,6 +36,25 @@ export class AppProvider extends React.Component {
         this.setState({ coinList });
     }
 
+    addCoin = key => {
+        let favorites = [...this.state.favorites];
+        // If length is less than max favorites
+        if(favorites.length < MAX_FAVORITES) {
+            // Push key onto favorites array
+            favorites.push(key);
+            this.setState({ favorites });
+
+        }
+    }
+    // .pull is a lodash command
+    // Will return new array of value removed
+    removeCoin = key => {
+        let favorites = [...this.state.favorites]; 
+        this.setState({ favorites: _.pull(favorites, key)})
+    }
+
+    // Prevents adding the same coin to favorites multiple times
+    isInFavorites = key => _.includes(this.state.favorites, key)
     confirmFavorites = () => {
     //  console.log('Hello'); 
         this.setState({
@@ -36,7 +62,7 @@ export class AppProvider extends React.Component {
             page: 'dashboard'
         });
         localStorage.setItem('cryptodash', JSON.stringify({
-            test: 'Hello'
+            favorites: this.state.favorites
         }));
     }  
 
@@ -46,7 +72,8 @@ export class AppProvider extends React.Component {
         if(!cryptoDashData) {
             return { page: 'settings', firstVisit: true }
         }
-        return {};
+        let {favorites} = cryptoDashData;
+        return {favorites};
     }
     // Function to set page with React
     setPage = page => this.setState({ page })
