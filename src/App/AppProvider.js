@@ -23,7 +23,8 @@ export class AppProvider extends React.Component {
             addCoin: this.addCoin, 
             removeCoin: this.removeCoin,
             isInFavorites: this.isInFavorites,
-            confirmFavorites: this.confirmFavorites
+            confirmFavorites: this.confirmFavorites,
+            setFilteredCoins: this.setFilteredCoins
         }
     }
 
@@ -60,6 +61,8 @@ export class AppProvider extends React.Component {
         this.setState({
             firstVisit: false,
             page: 'dashboard'
+        }, () => {
+            this.fetchPrices();
         });
         localStorage.setItem('cryptodash', JSON.stringify({
             favorites: this.state.favorites
@@ -75,8 +78,13 @@ export class AppProvider extends React.Component {
         let {favorites} = cryptoDashData;
         return {favorites};
     }
+
+
     // Function to set page with React
     setPage = page => this.setState({ page })
+
+    // Fuzzy search on search input setFilterCoin
+    setFilteredCoins = (filteredCoins) => this.setState({filteredCoins})
 
     // Render function will pass children through to get access to provider
     render(){
