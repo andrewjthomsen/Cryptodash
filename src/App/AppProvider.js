@@ -24,6 +24,7 @@ export class AppProvider extends React.Component {
       removeCoin: this.removeCoin,
       isInFavorites: this.isInFavorites,
       confirmFavorites: this.confirmFavorites,
+      setCurrentFavorite: this.setCurrentFavorite,
       setFilteredCoins: this.setFilteredCoins
     };
   }
@@ -67,8 +68,7 @@ export class AppProvider extends React.Component {
       this.setState({ favorites });
     }
   };
-  // .pull is a lodash command
-  // Will return new array of value removed
+
   removeCoin = key => {
     let favorites = [...this.state.favorites];
     this.setState({ favorites: _.pull(favorites, key) });
@@ -76,12 +76,14 @@ export class AppProvider extends React.Component {
 
   // Prevents adding the same coin to favorites multiple times
   isInFavorites = key => _.includes(this.state.favorites, key);
+
   confirmFavorites = () => {
-    //  console.log('Hello');
+    let currentFavorite = this.state.favorites[0];
     this.setState(
       {
         firstVisit: false,
-        page: "dashboard"
+        page: "dashboard",
+        currentFavorite,
       },
       () => {
         this.fetchPrices();
@@ -90,10 +92,21 @@ export class AppProvider extends React.Component {
     localStorage.setItem(
       "cryptodash",
       JSON.stringify({
-        favorites: this.state.favorites
+        favorites: this.state.favorites,
+        currentFavorite
       })
     );
   };
+
+  setCurrentFavorite = (sym) => {
+    this.setState({
+      currentFavorite: sym
+    });
+    localStorage.setItem('cryptoDash', JSON.stringify({
+      ...JSON.parse(localStorage.getItem('cryptoDash')),
+      currentFavorite: sym
+    }))
+  }
 
   savedSettings() {
     let cryptoDashData = JSON.parse(localStorage.getItem("cryptoDash"));
@@ -101,8 +114,8 @@ export class AppProvider extends React.Component {
     if (!cryptoDashData) {
       return { page: "settings", firstVisit: true };
     }
-    let { favorites } = cryptoDashData;
-    return { favorites };
+    let { favorites, currentFavorite } = cryptoDashData;
+    return { favorites, currentFavorite };
   }
 
   // Function to set page with React
