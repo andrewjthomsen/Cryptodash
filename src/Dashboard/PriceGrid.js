@@ -1,9 +1,9 @@
-import React from 'react';
-import { AppContext } from '../App/AppProvider';
-import styled from 'styled-components';
-import PriceTile from './PriceTile';
+import React from "react";
+import styled from "styled-components";
+import { AppContext } from "../App/AppProvider";
+import PriceTile from "./PriceTile";
 
-const PriceGrid = styled.div`
+const PriceGridStyled = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 15px;
@@ -14,11 +14,11 @@ export default function() {
   return (
     <AppContext.Consumer>
       {({ prices }) => (
-        <PriceGrid>
+        <PriceGridStyled>
           {prices.map((price, index) => (
-            <PriceTile index={index} price={price} />
+            <PriceTile key={ index } price={ price } index={ index }/>
           ))}
-        </PriceGrid>
+        </PriceGridStyled>
       )}
     </AppContext.Consumer>
   );

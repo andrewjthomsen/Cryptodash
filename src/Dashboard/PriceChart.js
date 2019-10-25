@@ -7,11 +7,12 @@ import HighchartsTheme from "./HighchartsTheme";
 
 ReactHighcharts.Highcharts.setOptions(HighchartsTheme);
 export default function() {
+  // Pulls out historical data and passes val into config funct
   return (
     <AppContext.Consumer>
-      {({}) => (
+      {({ historical }) => (
         <Tile>
-          <ReactHighcharts config={highchartsConfig()} />
+          <ReactHighcharts config={highchartsConfig(historical)} />
         </Tile>
       )}
     </AppContext.Consumer>
