@@ -4,7 +4,7 @@ import { Tile } from "../Shared/Tile";
 import { AppContext } from "../App/AppProvider";
 import CoinImage from "../Shared/CoinImage";
 
-const SpotlightName = styled.h2`
+const SpotLightName = styled.h2`
     text-align: center;
 
 `;
@@ -14,8 +14,8 @@ export default function() {
     <AppContext.Consumer>
       {({ currentFavorite, coinList }) => (
         <Tile>
-          <h2>{coinList[currentFavorite].coinName}</h2>
-          <CoinImage spotlight coin={coinList[currentFavorite]}/>
+          <SpotLightName>{coinList[currentFavorite].coinName}</SpotLightName>
+          <CoinImage  coin={coinList[currentFavorite]} spotlight/>
         </Tile>
       )}
     </AppContext.Consumer>
