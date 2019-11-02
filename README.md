@@ -1,4 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Cryptodash
+
+## Description
+Cryptodash is a crypto-currency dashboard built with React.js.
 
 ## Available Scripts
 
